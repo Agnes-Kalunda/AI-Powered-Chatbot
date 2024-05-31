@@ -1,11 +1,20 @@
+<!-- frontendApp/templates/index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>AggieBot</title>
 </head>
 <body>
-    <h1>Hi</h1>
+    <h1>AggieBot</h1>
+    <div id="chatbot"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+        new Crate({
+            server: 'YOUR_DISCORD_SERVER_ID',
+            channel: 'YOUR_DISCORD_CHANNEL_ID'
+        })
+    </script>
 </body>
 </html>

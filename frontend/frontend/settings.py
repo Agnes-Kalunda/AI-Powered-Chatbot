@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'frontendApp',
 ]
 
@@ -67,6 +68,18 @@ TEMPLATES = [
         },
     },
 ]
+# Define the ASGI application
+ASGI_APPLICATION = 'mysite.asgi.application'
+
+# Configure Channels to use Redis as the channel layer backend
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 WSGI_APPLICATION = 'frontend.wsgi.application'
 
