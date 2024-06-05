@@ -27,7 +27,7 @@ responses:
   - text: "Bye"
 
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  - text: "My name is AggieBot. An AI Bot customized by Agnes."
 
 session_config:
   session_expiration_time: 60
