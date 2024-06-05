@@ -1,41 +1,107 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AggieBot</title>
+    <title>AggieAI</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css' %}">
+    <!--Main css-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            width: 320px;
+            height: 90%;
+        }
+
+        .chat_header {
+            background: #6072e6;
+            border-radius: 10px 10px 0px 0px;
+            padding: 5px;
+            font-size: 20px;
+        }
+
+        .chats {
+            height: 340px;
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 1px;
+            overflow-y: scroll;
+            transition: 0.2s;
+        }
+
+        .keypad {
+            height: 45px;
+            /* width: 100%; */
+        }
+
+        .usrInput {
+            background: #f1f0f0;
+            padding: 0.5em;
+            width: 90%;
+            margin-left: 4%;
+            border-radius: 20px;
+            box-shadow: 0px 2px 10px 1px #b5b5b5;
+            border: 0;
+            padding-left: 15px;
+            height: 40px;
+        }
+
+        .profile_div {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            cursor: pointer;
+        }
+
+        .imgProfile {
+            box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.16), 0 0px 10px 0 rgba(0, 0, 0, 0.12);
+            background: white;
+            border-radius: 50px;
+            width: 60%;
+            padding: 2%;
+        }
+    </style>
 </head>
 <body>
-    <h1>AggieBot</h1>
-    <div id="chatbox"></div>
-    <input type="text" id="messageInput" autocomplete="off"/>
-    <button onclick="sendMessage()">Send</button>
-
-    <script>
-        const chatbox = document.getElementById('chatbox');
-        const messageInput = document.getElementById('messageInput');
-
-        const chatSocket = new WebSocket(
-            'ws://' + window.location.host + '/ws/chat/'
-        );
-
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            const message = data['message'];
-            chatbox.innerHTML += '<p>' + message + '</p>';
-        };
-
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        function sendMessage() {
-            const message = messageInput.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInput.value = '';
-        }
-    </script>
+    <div class="chat-container">
+        <div class="chat_header">
+            <!--Add the name of the bot here -->
+            <span style="color:white;margin-left: 5px;">AggieAI</span>
+            <!-- <span style="color:white;margin-right: 5px;float:right;margin-top: 5px;" id="close"> -->
+            <!-- <i class="material-icons">close</i> -->
+            </span>
+        </div>
+        <!--Chatbot contents goes here -->
+        <div class="chats" id="chats">
+            <div class="clearfix"></div>
+        </div>
+        <!--user typing indicator -->
+        <div class="keypad">
+            <input type="text" id="keypad" class="usrInput browser-default" placeholder="Type a message..." autocomplete="off">
+        </div>
+    </div>
+    <!--bot widget -->
+    <!-- <div class="profile_div" id="profile_div">
+        <img class="imgProfile" src="{% static 'img/botAvatar.png' %}" />
+    </div> -->
+    <!--JavaScript at end of body for optimized loading-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/materialize.min.js'  %}"></script>
+    <!--Main Script -->
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
