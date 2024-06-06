@@ -6,6 +6,8 @@ from django.http import JsonResponse
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+print(f"OpenAI API Key in Django: {openai.api_key[:5]}...")
+
 def index(request):
     return render(request, 'index.html', {})
 
