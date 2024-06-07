@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +12,7 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
+        
         body, html {
             height: 100%;
             margin: 0;
@@ -20,27 +20,36 @@
             justify-content: center;
             align-items: center;
         }
+
         .chat-container {
             width: 320px;
             height: 90%;
         }
+
         .chat_header {
             background: #6072e6;
             border-radius: 10px 10px 0px 0px;
             padding: 5px;
             font-size: 20px;
+            color: white;
+            text-align: center;
         }
+
         .chats {
-            height: 340px;
-            padding: 5px;
-            margin-top: 5px;
-            border-radius: 1px;
-            overflow-y: scroll;
-            transition: 0.2s;
-        }
+    height: 340px;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 1px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    transition: 0.2s;
+}
+
+
         .keypad {
             height: 45px;
+            /* width: 100%; */
         }
+
         .usrInput {
             background: #f1f0f0;
             padding: 0.5em;
@@ -52,12 +61,36 @@
             padding-left: 15px;
             height: 40px;
         }
+
+        .userMessage {
+    background-color: #6072e6;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin: 5px 20px;
+    text-align: right;
+    max-width: 70%;
+    float: right; /* Float user messages to the right */
+}
+
+.botMessage {
+    background-color: #f0f0f0;
+    color: #333;
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin: 5px 20px;
+    text-align: left;
+    max-width: 70%;
+    float: left; /* Float bot messages to the left */
+}
+
+        
     </style>
 </head>
 <body>
     <div class="chat-container">
         <div class="chat_header">
-            <span style="color:white;margin-left: 5px;">AggieAI</span>
+            AggieAI
         </div>
         <div class="chats" id="chats">
             <div class="clearfix"></div>
@@ -71,29 +104,25 @@
     <script type="text/javascript" src="{% static 'js/materialize.min.js'  %}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            $("#keypad").on("keypress", function(e) {
-                if (e.which == 13) {
-                    e.preventDefault();
-                    var message = $("#keypad").val();
-                    if (message.trim() != "") {
-                        $("#chats").append('<div class="message">'+message+'</div>');
-                        $("#keypad").val('');
-                        
-                        $.ajax({
-                            type: "POST",
-                            url: "/chat/",
-                            data: {
-                                'message': message
-                            },
-                            success: function(response) {
-                                $("#chats").append('<div class="message bot">'+response.text+'</div>');
-                                $("#chats").scrollTop($("#chats")[0].scrollHeight);
-                            },
-                            error: function(response) {
-                                console.error("Error:", response);
-                            }
-                        });
-                    }
+            $("#keypad").keypress(function(e){
+                if(e.which == 13) {
+                    var user_message = $(this).val();
+                    $(this).val('');
+                    $('#chats').append('<div class="userMessage">' + user_message + '</div>');
+                    $.ajax({
+                        url: '/chat/',
+                        type: 'POST',
+                        data: {
+                            'message': user_message
+                        },
+                        success: function(response) {
+                            var bot_response = response.text;
+                            $('#chats').append('<div class="botMessage">' + bot_response + '</div>');
+                        },
+                        error: function(xhr, errmsg, err) {
+                            console.log(xhr.status + ": " + xhr.responseText);
+                        }
+                    });
                 }
             });
         });
