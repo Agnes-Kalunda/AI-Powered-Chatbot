@@ -13,7 +13,6 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-        
         body, html {
             height: 100%;
             margin: 0;
@@ -21,19 +20,16 @@
             justify-content: center;
             align-items: center;
         }
-
         .chat-container {
             width: 320px;
             height: 90%;
         }
-
         .chat_header {
             background: #6072e6;
             border-radius: 10px 10px 0px 0px;
             padding: 5px;
             font-size: 20px;
         }
-
         .chats {
             height: 340px;
             padding: 5px;
@@ -42,12 +38,9 @@
             overflow-y: scroll;
             transition: 0.2s;
         }
-
         .keypad {
             height: 45px;
-            /* width: 100%; */
         }
-
         .usrInput {
             background: #f1f0f0;
             padding: 0.5em;
@@ -59,49 +52,51 @@
             padding-left: 15px;
             height: 40px;
         }
-
-        .profile_div {
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            cursor: pointer;
-        }
-
-        .imgProfile {
-            box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.16), 0 0px 10px 0 rgba(0, 0, 0, 0.12);
-            background: white;
-            border-radius: 50px;
-            width: 60%;
-            padding: 2%;
-        }
     </style>
 </head>
 <body>
     <div class="chat-container">
         <div class="chat_header">
-            <!--Add the name of the bot here -->
             <span style="color:white;margin-left: 5px;">AggieAI</span>
-            <!-- <span style="color:white;margin-right: 5px;float:right;margin-top: 5px;" id="close"> -->
-            <!-- <i class="material-icons">close</i> -->
-            </span>
         </div>
-        <!--Chatbot contents goes here -->
         <div class="chats" id="chats">
             <div class="clearfix"></div>
         </div>
-        <!--user typing indicator -->
         <div class="keypad">
             <input type="text" id="keypad" class="usrInput browser-default" placeholder="Type a message..." autocomplete="off">
         </div>
     </div>
-    <!--bot widget -->
-    <!-- <div class="profile_div" id="profile_div">
-        <img class="imgProfile" src="{% static 'img/botAvatar.png' %}" />
-    </div> -->
     <!--JavaScript at end of body for optimized loading-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="{% static 'js/materialize.min.js'  %}"></script>
-    <!--Main Script -->
-    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#keypad").on("keypress", function(e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    var message = $("#keypad").val();
+                    if (message.trim() != "") {
+                        $("#chats").append('<div class="message">'+message+'</div>');
+                        $("#keypad").val('');
+                        
+                        $.ajax({
+                            type: "POST",
+                            url: "/chat/",
+                            data: {
+                                'message': message
+                            },
+                            success: function(response) {
+                                $("#chats").append('<div class="message bot">'+response.text+'</div>');
+                                $("#chats").scrollTop($("#chats")[0].scrollHeight);
+                            },
+                            error: function(response) {
+                                console.error("Error:", response);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
