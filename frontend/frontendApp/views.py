@@ -5,7 +5,6 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def index(request):
@@ -20,14 +19,26 @@ def chat(request):
             rasa_responses = send_to_rasa(message)
             print("Rasa Responses:", rasa_responses)
             
-            # Generate OpenAI response based on Rasa responses
-            openai_response = generate_openai_response(rasa_responses)
-            print("OpenAI Response:", openai_response)
-            
-            # Return the OpenAI response to the user
-            return JsonResponse(openai_response)
+            # Check if Rasa provided a valid response
+            if is_valid_rasa_response(rasa_responses):
+                # Generate OpenAI response based on Rasa responses
+                openai_response = generate_openai_response(rasa_responses)
+                print("OpenAI Response:", openai_response)
+                return JsonResponse(openai_response)
+            else:
+                # Send user message directly to OpenAI
+                openai_response = generate_direct_openai_response(message)
+                print("Direct OpenAI Response:", openai_response)
+                return JsonResponse(openai_response)
     
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+def is_valid_rasa_response(rasa_responses):
+    # Check if Rasa response is valid and not a fallback response
+    for response in rasa_responses:
+        if 'text' in response and response['text'] != "I'm sorry, I didn't understand that. Can you please rephrase?":
+            return True
+    return False
 
 def send_to_rasa(message):
     rasa_url = 'http://localhost:5005/webhooks/rest/webhook'
@@ -58,7 +69,7 @@ def generate_openai_response(rasa_responses):
         openai_response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "Rephrase the following response to make it more human-like while retaining the original content."},
+                {"role": "system", "content": "You are AggieBot, an assistant created by Agnes. Respond to the user's query based on the provided information."},
                 {"role": "user", "content": bot_response}
             ],
             max_tokens=150,
@@ -69,6 +80,26 @@ def generate_openai_response(rasa_responses):
         print("Rephrased OpenAI Response:", rephrased_response)
         
         return {'text': rephrased_response}
+    except Exception as e:
+        error_message = f"Failed to generate response from OpenAI: {e}"
+        return {'error': error_message}
+
+def generate_direct_openai_response(message):
+    try:
+        openai_response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are AggieBot, an assistant created by Agnes. Respond to the user's query in a friendly , cheerful , with a hint of wit and sass ,and helpful manner."},
+                {"role": "user", "content": message}
+            ],
+            max_tokens=150,
+            temperature=0.7
+        )
+        
+        response = openai_response.choices[0].message['content'].strip()
+        print("Direct OpenAI Response:", response)
+        
+        return {'text': response}
     except Exception as e:
         error_message = f"Failed to generate response from OpenAI: {e}"
         return {'error': error_message}
