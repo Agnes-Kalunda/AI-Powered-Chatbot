@@ -3,88 +3,94 @@
 <html>
 <head>
     <title>AggieAI</title>
-    <!--Import Google Icon Font-->
+    <!-- Import Google Icon Font -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
+    <!-- Import materialize.css -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css' %}">
-    <!--Main css-->
+    <!-- Main css -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <!--Let browser know website is optimized for mobile-->
+    <!-- Let browser know website is optimized for mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-        
         body, html {
             height: 100%;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #f5f5f5;
         }
 
         .chat-container {
-            width: 320px;
+            width: 360px;
             height: 90%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .chat_header {
             background: #6072e6;
-            border-radius: 10px 10px 0px 0px;
-            padding: 5px;
+            padding: 15px;
             font-size: 20px;
             color: white;
             text-align: center;
+            border-radius: 10px 10px 0px 0px;
         }
 
         .chats {
-    height: 340px;
-    padding: 5px;
-    margin-top: 5px;
-    border-radius: 1px;
-    overflow-y: auto; /* Enable vertical scrolling */
-    transition: 0.2s;
-}
-
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            margin-bottom: 60px; /* Add space between messages and input box */
+        }
 
         .keypad {
-            height: 45px;
-            /* width: 100%; */
+            padding: 10px;
+            border-top: 1px solid #ddd;
         }
 
         .usrInput {
             background: #f1f0f0;
-            padding: 0.5em;
-            width: 90%;
-            margin-left: 4%;
+            width: calc(100% - 20px);
             border-radius: 20px;
             box-shadow: 0px 2px 10px 1px #b5b5b5;
-            border: 0;
-            padding-left: 15px;
-            height: 40px;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 auto;
+            display: block;
         }
 
-        .userMessage {
-    background-color: #6072e6;
-    color: white;
-    border-radius: 20px;
-    padding: 10px 15px;
-    margin: 5px 20px;
-    text-align: right;
-    max-width: 70%;
-    float: right; /* Float user messages to the right */
-}
+        .message {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
 
-.botMessage {
-    background-color: #f0f0f0;
-    color: #333;
-    border-radius: 20px;
-    padding: 10px 15px;
-    margin: 5px 20px;
-    text-align: left;
-    max-width: 70%;
-    float: left; /* Float bot messages to the left */
-}
+        .message.user {
+            justify-content: flex-end;
+        }
 
-        
+        .message .text {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 20px;
+        }
+
+        .message.user .text {
+            background-color: #6072e6;
+            color: white;
+            border-top-right-radius: 0;
+        }
+
+        .message.bot .text {
+            background-color: #f0f0f0;
+            color: #333;
+            border-top-left-radius: 0;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +105,7 @@
             <input type="text" id="keypad" class="usrInput browser-default" placeholder="Type a message..." autocomplete="off">
         </div>
     </div>
-    <!--JavaScript at end of body for optimized loading-->
+    <!-- JavaScript at end of body for optimized loading -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="{% static 'js/materialize.min.js'  %}"></script>
     <script type="text/javascript">
@@ -108,7 +114,9 @@
                 if(e.which == 13) {
                     var user_message = $(this).val();
                     $(this).val('');
-                    $('#chats').append('<div class="userMessage">' + user_message + '</div>');
+                    $('#chats').append('<div class="message user"><div class="text">' + user_message + '</div></div>');
+                    scrollToBottom();
+
                     $.ajax({
                         url: '/chat/',
                         type: 'POST',
@@ -117,7 +125,8 @@
                         },
                         success: function(response) {
                             var bot_response = response.text;
-                            $('#chats').append('<div class="botMessage">' + bot_response + '</div>');
+                            $('#chats').append('<div class="message bot"><div class="text">' + bot_response + '</div></div>');
+                            scrollToBottom();
                         },
                         error: function(xhr, errmsg, err) {
                             console.log(xhr.status + ": " + xhr.responseText);
@@ -126,6 +135,11 @@
                 }
             });
         });
+
+        function scrollToBottom() {
+            var chats = document.getElementById("chats");
+            chats.scrollTop = chats.scrollHeight;
+        }
     </script>
 </body>
 </html>
