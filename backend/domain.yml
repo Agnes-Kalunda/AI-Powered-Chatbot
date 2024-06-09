@@ -2,29 +2,39 @@ version: "3.1"
 
 intents:
   - ask_about_agnes
-  - programming_query
-  - fallbackk
-  
+  - fallback
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
 
 responses:
   utter_ask_about_agnes:
-  - text: "Agnes is a software developer with a passion for AI."
-
-  utter_programming_query:
-  - text: "Can you please specify the programming-related question?"
-
+    - text: "Agnes is a software developer with a passion for AI."
 
   utter_default:
-  - text: "I'm sorry, I didn't understand that. Can you please rephrase?"
+    - text: "I'm sorry, I didn't understand that. Can you please rephrase?"
 
   utter_happy:
-  - text: "Great, carry on!"
+    - text: "Great, carry on!"
 
   utter_goodbye:
-  - text: "Bye"
+    - text: "Bye"
 
   utter_iamabot:
-  - text: "My name is AggieBot. An AI Bot customized by Agnes."
+    - text: "I'm AggieBot. An AI assistant customized by Agnes to help you with your programming questions."
+
+  utter_greet:
+    - text: "Hello"
+
+  utter_cheer_up:
+    - text: "Here's something to cheer you up!"
+
+  utter_did_that_help:
+    - text: "Did that help you?"
 
 session_config:
   session_expiration_time: 60

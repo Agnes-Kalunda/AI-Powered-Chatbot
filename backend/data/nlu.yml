@@ -7,13 +7,49 @@ nlu:
       - Who is Agnes?
       - Information about Agnes
 
-  - intent: programming_query
-    examples: |
-      - How do I write a function in Python?
-      - Explain polymorphism in Java
-      - What is machine learning?
-
   - intent: fallback
     examples: |
       - I don't know
       - No idea
+
+  - intent: greet
+    examples: |
+      - Hi
+      - Hello
+      - Hey
+
+  - intent: goodbye
+    examples: |
+      - Bye
+      - Goodbye
+      - See you later
+
+  - intent: affirm
+    examples: |
+      - Yes
+      - Sure
+      - Okay
+
+  - intent: deny
+    examples: |
+      - No
+      - Not really
+      - Nope
+
+  - intent: mood_great
+    examples: |
+      - I am feeling great
+      - I am happy
+      - Everything is awesome
+
+  - intent: mood_unhappy
+    examples: |
+      - I am sad
+      - I am not feeling well
+      - I am unhappy
+
+  - intent: bot_challenge
+    examples: |
+      - Are you a bot?
+      - What are you?
+      - Are you human?
