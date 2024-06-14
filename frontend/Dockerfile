@@ -19,7 +19,7 @@ RUN pip install python-dotenv
 COPY . /frontend
 
 # Copy the .env file
-COPY .env /frontend/.env
+# COPY .env /frontend/.env
 
 
 # Run Django migrations and collect static files
