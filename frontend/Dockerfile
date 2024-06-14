@@ -21,6 +21,7 @@ COPY . /frontend
 # Copy the .env file
 COPY .env /frontend/.env
 
+
 # Run Django migrations and collect static files
 RUN python manage.py migrate
 RUN python manage.py collectstatic --no-input
