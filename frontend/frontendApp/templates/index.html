@@ -1,9 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AggieAI</title>
     <!-- Import Google Icon Font -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -11,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css' %}">
     <!-- Main css -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!-- Let browser know website is optimized for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
         body, html {
             height: 100%;
@@ -34,7 +34,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column; /* Adjusted for better responsiveness */
         }
         .phone-frame::before {
             content: '';
@@ -59,8 +58,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding: 20px; /* Added padding */
-            box-sizing: border-box; /* Ensures padding is included in the width */
         }
         .chat_header {
             background: #00796b; /* Darker teal */
@@ -70,9 +67,6 @@
             text-align: center;
             border-radius: 10px 10px 0px 0px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1; /* Ensures it's above other elements */
         }
         .chats {
             flex: 1;
@@ -93,9 +87,6 @@
             border-bottom-right-radius: 10px;
             background-color: #fafafa;
             display: flex; /* Flexbox for aligning input and button */
-            position: sticky;
-            bottom: 0;
-            z-index: 1; /* Ensures it's above other elements */
         }
         .usrInput {
             background: #f1f0f0;
@@ -152,42 +143,6 @@
             from {opacity: 0;}
             to {opacity: 1;}
         }
-
-        /* Media Queries for Responsive Design */
-        @media (max-width: 600px) {
-            .phone-frame {
-                width: 100vw;
-                height: 100vh;
-                border-radius: 0;
-                padding: 0;
-                justify-content: flex-start; /* Aligns items at the start */
-                padding-top: 50px; /* Space for the title */
-            }
-            .phone-frame::before {
-                display: none; /* Hide the decorative dot on small screens */
-            }
-            .chat-container {
-                border-radius: 0;
-                height: calc(100% - 50px); /* Adjust height minus the title space */
-                padding: 0;
-                box-shadow: none;
-                justify-content: flex-start; /* Aligns items at the start */
-            }
-            .chat_header {
-                border-radius: 0;
-                font-size: 18px;
-                padding: 10px;
-                position: sticky;
-                top: 0;
-                z-index: 2; /* Ensures it's above other elements */
-            }
-            .keypad {
-                position: fixed;
-                bottom: 0;
-                width: 100%;
-                z-index: 2; /* Ensures it's above other elements */
-            }
-        }
     </style>
 </head>
 <body>
@@ -205,10 +160,9 @@
             </div>
         </div>
     </div>
-
     <!-- JavaScript at end of body for optimized loading -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/materialize.min.js'  %}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             $("#sendButton").click(function() {

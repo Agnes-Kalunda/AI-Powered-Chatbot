@@ -32,7 +32,7 @@ def generate_openai_response(message):
         openai_response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are an AI Assistant called AggieBot, created by Agnes to strictly only answer programming questions,you can't divert. Any  information regarding Agnes they can directly ask her Via +254 707 606 316."},
+                {"role": "system", "content": "You are an AI Assistant called AggieBot, created by Agnes to  only answer programming questions. Any  information regarding Agnes they can directly ask her Via +254 707 606 316."},
                 {"role": "user", "content": message}
             ],
             max_tokens=150,
