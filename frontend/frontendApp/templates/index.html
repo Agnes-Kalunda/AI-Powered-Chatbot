@@ -64,6 +64,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            position: relative;
         }
 
         .chat_header {
@@ -74,6 +75,9 @@
             text-align: center;
             border-radius: 10px 10px 0px 0px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .chats {
@@ -172,12 +176,16 @@
                 width: 100%;
                 height: 100%;
                 border-radius: 0;
-                padding: 10px;
+                padding: 0;
                 box-shadow: none;
+            }
+            .chats {
+                padding-bottom: 50px; /* Ensure keypad area isn't hidden */
             }
             .chat_header {
                 font-size: 18px;
                 padding: 10px;
+                border-radius: 0;
             }
             .usrInput {
                 padding: 8px 10px;
