@@ -34,6 +34,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column; /* Adjusted for better responsiveness */
         }
         .phone-frame::before {
             content: '';
@@ -58,6 +59,8 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            padding: 20px; /* Added padding */
+            box-sizing: border-box; /* Ensures padding is included in the width */
         }
         .chat_header {
             background: #00796b; /* Darker teal */
@@ -67,6 +70,9 @@
             text-align: center;
             border-radius: 10px 10px 0px 0px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1; /* Ensures it's above other elements */
         }
         .chats {
             flex: 1;
@@ -87,6 +93,9 @@
             border-bottom-right-radius: 10px;
             background-color: #fafafa;
             display: flex; /* Flexbox for aligning input and button */
+            position: sticky;
+            bottom: 0;
+            z-index: 1; /* Ensures it's above other elements */
         }
         .usrInput {
             background: #f1f0f0;
@@ -151,12 +160,18 @@
                 height: 100vh;
                 border-radius: 0;
                 padding: 0;
+                justify-content: flex-start; /* Aligns items at the start */
+                padding-top: 50px; /* Space for the title */
+            }
+            .phone-frame::before {
+                display: none; /* Hide the decorative dot on small screens */
             }
             .chat-container {
                 border-radius: 0;
-                height: 100%;
+                height: calc(100% - 50px); /* Adjust height minus the title space */
                 padding: 0;
                 box-shadow: none;
+                justify-content: flex-start; /* Aligns items at the start */
             }
             .chat_header {
                 border-radius: 0;
@@ -164,10 +179,13 @@
                 padding: 10px;
                 position: sticky;
                 top: 0;
-                z-index: 10;
+                z-index: 2; /* Ensures it's above other elements */
             }
-            .chats {
-                padding-bottom: 50px;
+            .keypad {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                z-index: 2; /* Ensures it's above other elements */
             }
         }
     </style>
