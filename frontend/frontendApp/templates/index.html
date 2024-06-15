@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,26 +18,23 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #e0f7fa;
-            font-family: 'Roboto', sans-serif;
+            background-color: #e0f7fa; /* Softer background color */
+            font-family: 'Roboto', sans-serif; /* Modern font */
         }
-
         .phone-frame {
-            width: 90%;
-            max-width: 375px;
+            width: 375px;
             height: 85vh;
             max-height: 667px;
             border: 16px solid #333;
             border-radius: 36px;
             padding: 20px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Slightly larger shadow */
             background-color: white;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         .phone-frame::before {
             content: '';
             position: absolute;
@@ -50,12 +46,10 @@
             background-color: #333;
             border-radius: 10px;
         }
-
         .phone-frame::after {
-            content: '';
+            content: ''; /* Remove the decorative dot at the bottom */
             display: none;
         }
-
         .chat-container {
             width: 100%;
             height: 100%;
@@ -64,45 +58,36 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            position: relative;
         }
-
         .chat_header {
-            background: #00796b;
+            background: #00796b; /* Darker teal */
             padding: 15px;
             font-size: 20px;
             color: white;
             text-align: center;
             border-radius: 10px 10px 0px 0px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
-
         .chats {
             flex: 1;
             padding: 10px;
             overflow-y: auto;
             padding-bottom: 50px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
         }
-
-        .chats::-webkit-scrollbar {
+        .chats::-webkit-scrollbar { /* WebKit */
             width: 0;
             height: 0;
         }
-
         .keypad {
             padding: 10px;
             border-top: 1px solid #ddd;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
             background-color: #fafafa;
-            display: flex;
+            display: flex; /* Flexbox for aligning input and button */
         }
-
         .usrInput {
             background: #f1f0f0;
             width: 100%;
@@ -111,9 +96,8 @@
             border: none;
             padding: 10px 15px;
             margin-right: 10px;
-            box-sizing: border-box;
+            box-sizing: border-box; /* Ensures padding is included in the width */
         }
-
         .send-btn {
             background-color: #00796b;
             color: white;
@@ -127,77 +111,37 @@
             cursor: pointer;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         }
-
         .send-btn i {
             font-size: 24px;
         }
-
         .message {
             display: flex;
             align-items: center;
             margin: 10px 0;
             animation: fadeIn 0.5s;
         }
-
         .message.user {
             justify-content: flex-end;
         }
-
         .message .text {
-            max-width: 70%;
+            max-width: 70%; /* Reduced max-width */
             padding: 10px 15px;
             border-radius: 20px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         }
-
         .message.user .text {
             background-color: #00796b;
             color: white;
             border-top-right-radius: 0;
         }
-
         .message.bot .text {
             background-color: #e0f2f1;
             color: #333;
             border-top-left-radius: 0;
         }
-
         @keyframes fadeIn {
             from {opacity: 0;}
             to {opacity: 1;}
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (max-width: 600px) {
-            .phone-frame {
-                display: none;
-            }
-            .chat-container {
-                width: 100%;
-                height: 100%;
-                border-radius: 0;
-                padding: 0;
-                box-shadow: none;
-            }
-            .chats {
-                padding-bottom: 50px; /* Ensure keypad area isn't hidden */
-            }
-            .chat_header {
-                font-size: 18px;
-                padding: 10px;
-                border-radius: 0;
-            }
-            .usrInput {
-                padding: 8px 10px;
-                margin-right: 5px;
-            }
-            .send-btn {
-                width: 35px;
-                height: 35px;
-            }
-            .send-btn i {
-                font-size: 20px;
-            }
         }
     </style>
 </head>
@@ -218,25 +162,22 @@
     </div>
     <!-- JavaScript at end of body for optimized loading -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/materialize.min.js'  %}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             $("#sendButton").click(function() {
                 sendMessage();
             });
-
             $("#keypad").keypress(function(e){
                 if(e.which == 13) {
                     sendMessage();
                 }
             });
-
             function sendMessage() {
                 var user_message = $("#keypad").val();
                 $("#keypad").val('');
                 $('#chats').append('<div class="message user"><div class="text">' + user_message + '</div></div>');
                 scrollToBottom();
-
                 $.ajax({
                     url: '/chat/',
                     type: 'POST',
@@ -253,7 +194,6 @@
                     }
                 });
             }
-
             function scrollToBottom() {
                 var chats = document.getElementById("chats");
                 chats.scrollTop = chats.scrollHeight;
